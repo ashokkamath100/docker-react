@@ -22,7 +22,7 @@ before_install:
 # commands and if it sees that one of the commands 
 # returned nonzero status, then Travis will assume the test suite failed
 script:
-  - docker run -e CI=true stephengrider/docker-react npm run test
+  - docker run -e CI=true jacksparrow19/docker-react npm run test
 
 
 # therefore, whenever we push a commit to Github, Travis will see that
