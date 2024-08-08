@@ -1,27 +1,8 @@
 version: '3'
-#specify the list of services (containers) we are creating
-services: 
-#specify the name of the service
-  web: 
-    build: 
-      context: .
-      dockerfile: Dockerfile.dev
-    ports: 
-    #specify that we want to map the port 3000 on the local machine to port 3000 inside the container
-      - "3000:3000"
-    volumes:
-      #do not try to map app/node_modules inside the container to anything in the local directory
-      - /app/node_modules
-      # map the current folder (referred to with .) outside the container to the app folder inside the container 
-      - .:/app
-  tests:
+services:
+  web:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - .:/app
-    #allows us to override the command in the docker file with command we want to execute
-    command: ["npm", "run", "test"]
-    
-#now docker-compose up will create and run both containers 'web' and 'tests'
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'

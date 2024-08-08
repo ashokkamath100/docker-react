@@ -27,3 +27,25 @@ script:
 
 # therefore, whenever we push a commit to Github, Travis will see that
 # and then execute the commands here 
+
+deploy:
+# travis CI is preconfigured with some hosting providers like aws elb and digital ocean
+# so it knows what we're talking about when we say elastic beanstalk
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  # give our app a name
+  app: "docker"
+  # tell Travis the name of the environment we set up on elastic beanstalk
+  env: "Frontend-env"
+  # tell Travis the s3 bucket that was created 
+  # this bucket will be reused for all the different elastic beanstalk environments
+  # you create 
+  bucket_name: "elasticbeanstalk-us-east-1-555909762796"
+  # inside the bucket, we use the folder dedicated to our app
+  # which we named earlier in this travis file
+  # this folder will be created on the first deployment to ELB
+  bucket_path: "docker"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
