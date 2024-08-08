@@ -8,7 +8,7 @@ sudo: required
 services:
   - docker
 
-# this prompts a series of commands to be executed
+# before_install: prompts a series of commands to be executed
 # before our tests are ran.
 # They will set up the environment. 
 before_install:
@@ -34,7 +34,7 @@ deploy:
   provider: elasticbeanstalk
   region: "us-east-1"
   # give our app a name
-  app: "docker"
+  app: "frontend"
   # tell Travis the name of the environment we set up on elastic beanstalk
   env: "Frontend-env"
   # tell Travis the s3 bucket that was created 
@@ -44,7 +44,7 @@ deploy:
   # inside the bucket, we use the folder dedicated to our app
   # which we named earlier in this travis file
   # this folder will be created on the first deployment to ELB
-  bucket_path: "docker"
+  bucket_path: "frontend"
   on:
     branch: main
   access_key_id: $AWS_ACCESS_KEY_ID
