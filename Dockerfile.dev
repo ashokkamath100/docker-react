@@ -1,0 +1,44 @@
+FROM node:16-alpine
+
+# set up a working directory in the container 
+WORKDIR '/app'
+
+# copy package.json into the working directory in the container
+COPY package.json . 
+# run npm install inside the container's working directory
+# so it will use the package.json to install dependencies
+RUN npm install
+
+# copy everything else from our local project directory into the container's working directory
+COPY . .
+
+# this is the command to start up the contents of our container 
+CMD ["npm", "run", "start"]
+
+# since this file has a .dev extension, we need to use 
+# docker build -f Dockerfile.dev . 
+# to build the image 
+
+# to get this image to run successfully, we need to use port mapping
+# docker run -p 3000:3000 (container id)
+# 3000:3000 maps port 3000 on the local machine to port 3000 on the container
+
+# by using volumes specified in the docker cli command to run the container, we can tell the container 
+# that whenever it uses the app directory, we want it to reach back out of the container 
+# to our local machine's present working directory and use the files stored there.
+# this means that whenever we make changes to our local directory, those changes
+# will instantly update the container so we don't have to rebuild the image 
+# every time we make a change. Now we have something similar to Live Server
+# this isn't only because of the volume we set up but also because React server 
+# updates changes it sees. 
+
+
+# we use 
+# docker run -it [container_id] [command]
+
+# The docker run -it command is used to start a Docker container interactively. Here's a breakdown of the command:
+
+#     docker run: This is the base command to run a container.
+#     -i: This flag stands for "interactive." It keeps the standard input (stdin) open, even if not attached, allowing you to interact with the container.
+#     -t: This flag stands for "tty." It allocates a pseudo-TTY (a terminal), enabling a terminal session within the container.
+#     When combined as -it, these flags allow you to run a container in an interactive mode with a terminal session. This is particularly useful for debugging or when you need to run commands within the container interactively.
