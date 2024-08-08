@@ -1,0 +1,29 @@
+sudo: required
+# sudo: required is necessary because we are using Docker
+# which requires super user permissions
+# so we tell travis we need this level of permissions to 
+# execute this build 
+
+#this below tells Travis CI that we need docker ready
+services:
+  - docker
+
+# this prompts a series of commands to be executed
+# before our tests are ran.
+# They will set up the environment. 
+before_install:
+# we want to build the docker image before the tests are
+# ran 
+  - docker build -t jacksparrow19/docker-react -f Dockerfile.dev . 
+
+# the script section will contain all the commands that are 
+# necessary to run our test suite.
+# Travis CI will be watching the output of each of the 
+# commands and if it sees that one of the commands 
+# returned nonzero status, then Travis will assume the test suite failed
+script:
+  - docker run -e CI=true stephengrider/docker-react npm run test
+
+
+# therefore, whenever we push a commit to Github, Travis will see that
+# and then execute the commands here 
